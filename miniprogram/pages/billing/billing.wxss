@@ -1,0 +1,18 @@
+/* pages/billing/billing.wxss */
+.info {
+  margin-top: 50px;
+}
+.view_noPackage1
+{
+  margin-top: 20px;
+  margin-left: 80px;
+}
+.view_noPackage2
+{
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+.view_noPackageFont
+{
+  font-size: small;
+}

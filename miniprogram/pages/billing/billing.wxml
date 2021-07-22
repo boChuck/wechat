@@ -1,0 +1,69 @@
+<!--pages/billing/billing.wxml-->
+<view>
+  <block wx:for="{{billings}}" wx:key="id">
+      <van-cell  
+        is-link
+        link-type="navigateTo"
+        url="/pages/confirmedBill/confirmedBill?jsonStr={{item.billingNumber}}">
+        <block>
+          <van-card
+            desc="{{item.billingNumber}}"
+            title="{{item.createTime}}"
+            num="{{item.numOfPieces}}"
+            tag="{{item.status}}"
+            thumb="/images/logistic.png"
+          >
+            <view slot="tags">
+              <van-tag round color="#f37022" type="primary"> 运费:{{item.billing}} </van-tag> 
+            </view>
+            <view slot="footer">
+              <text>{{item.isPaid}}</text>
+            </view>
+          </van-card>
+          <van-divider hairline/>
+        </block>
+      </van-cell>
+    </block>
+</view>
+<view wx:if="{{totalBillings==0}}">
+    <view class="view_noPackage1">您没有要处理的包裹</view>
+    <view class="view_noPackage2">请使用下面地址作为您购物平台的收货地址。</view>
+    <view>
+      <van-card
+        title="海运地址"
+        bindtap='copyHaiyunAddress'
+        data-text="{{haiyunAddress}}"
+        >
+        <view slot="desc">
+          <view>收件人{{haiyunAddress}}</view>
+          <view>手机{{}}</view>
+          <view>地址{{}}</view>
+          <view>邮编{{}}</view>
+        </view>
+      </van-card>
+    </view>
+    <view> 
+      <van-card
+        title="空运地址"
+        bindtap='copyKongyunAddress'
+        data-text="{{kongyunAddress}}"
+      >
+        <view slot="desc">
+          <view>收件人{{kongyunAddress}}</view>
+          <view>手机{{}}</view>
+          <view>地址{{}}</view>
+          <view>邮编{{}}</view>
+        </view>
+      </van-card>
+    </view>
+    <view class="view_noPackageFont">点击复制地址</view>
+    <view class="info">
+      <van-grid  border="{{false}}" column-num="2">
+        <van-grid-item  bind:click='doOpenCostGuide' icon="gold-coin-o" text="运费概要" />
+        <van-grid-item bind:click='doOpenQuestion' icon="question-o" text="常见问题"  />
+      </van-grid>
+      
+      <!-- <van-icon  size="30px" color="#f37022" info="常见问题" name="question-o" />
+      <van-icon  size="30px" color="#f37022" info="运费概要" name="gold-coin-o" /> -->
+    </view>
+  </view>

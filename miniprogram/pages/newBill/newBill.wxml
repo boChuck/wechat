@@ -1,0 +1,533 @@
+<!--pages/newBill/newBill.wxml-->
+<view>
+  <van-steps steps="{{ steps }}" active-color="#f37022" active="{{ active }}" />
+</view>
+
+<!--first step-->
+<view wx:if="{{active == 0}}">
+  <text>请选择运单类型：</text>
+  <van-radio-group
+  value="{{ yundanChannel }}"
+  bind:change="onYundanChannelChange"
+>
+  <van-radio checked-color="#f37022" name="1">海运</van-radio>
+  <van-radio checked-color="#f37022" name="2">空运</van-radio>
+  <van-radio checked-color="#f37022" name="3">退货</van-radio>
+</van-radio-group>
+</view>
+
+<!--second step-->
+<view class="view-step" wx:if="{{active == 1}}">
+  <text>请选择要发送的包裹：</text>
+  <block >
+    <van-cell-group wx:for="{{completedItems}}" wx:key="id">
+      <van-cell>
+        <view slot="title">
+          <!-- <van-checkbox-group value="{{ result }}" bind:change="onSelectChange"> -->
+            <van-checkbox id="{{index}}" value="{{ result[index] }}" bind:change="onSelectChange" name="{{item._id}}">{{item.packageName}}<text> 重量：{{item.weight}}</text><text> 价格：¥{{item.totalPrice}}</text>
+            </van-checkbox>
+          <!-- </van-checkbox-group> -->
+        </view>
+        <view> 
+          <i-switch id="{{index}}" value="{{switchUnpack[index]}}" size="large" bind:change="onSwitchChange" slot="footer">
+              <view slot="open">拆包</view>
+          </i-switch>
+          
+        </view>
+      </van-cell>
+    </van-cell-group>
+    <van-cell>
+      <label class="label_attention">注明：拆包费用以每个包裹0.8NZD计价</label>
+    </van-cell>
+  </block>
+  
+  <block>
+    <view class="yundanInfo">
+      <label>运单信息</label>
+      <van-grid column-num="5">
+        <van-grid-item  text="包裹" >
+          <view slot="icon">
+            <label class="label">{{selectedItems.length}} 件</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item  text="体积" >
+          <view slot="icon">
+            <label class="label">{{totalVolume}} m3</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item text="重量">
+          <view slot="icon">
+            <label class="label">{{totalWeight}} kg</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item  text="材积">
+          <view slot="icon">
+            <label class="label">{{totalCaiJi}} kg</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item text="总价">
+          <view slot="icon">
+            <label class="label">{{totalPrice}} ¥</label>
+            
+          </view>
+        </van-grid-item>
+      </van-grid>
+    </view>
+  </block>
+</view>
+
+<!--third step-->
+<view class="view-step" wx:if="{{active == 2}}">
+ <block>
+    <view>
+      <label>运单信息</label>
+      <van-grid column-num="5">
+        <van-grid-item  text="包裹" >
+          <view slot="icon">
+            <label class="label">{{selectedItems.length}} 件</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item  text="体积" >
+          <view slot="icon">
+            <label class="label">{{totalVolume}} m3</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item text="重量">
+          <view slot="icon">
+            <label class="label">{{totalWeight}} kg</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item  text="材积">
+          <view slot="icon">
+            <label class="label">{{totalCaiJi}} kg</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item text="总价">
+          <view slot="icon">
+            <label class="label">{{totalPrice}} ¥</label>
+            
+          </view>
+        </van-grid-item>
+      </van-grid>
+    </view>
+  </block>
+  <!--yundan-->
+  <view>
+    <block>
+      <van-radio-group value="{{ yundanType }}" bind:change="onYundanTypeChange">
+        <van-radio name="1">
+          <label>转运运单 - 收件人需要承担GST</label>
+          <label>发件人不知道包裹的目的地 货值低于1000NZD</label>
+          <label class="label_attention">收件人负责货物GST</label>
+        </van-radio>
+        <van-radio name="2">
+          <label>直邮运单 - 发件人需要承担GST</label>
+          <label>发件人知道包裹的目的地 货值低于1000NZD</label>
+          <label class="label_attention">发件人负责货物GST</label>
+        </van-radio>
+      </van-radio-group>
+    </block>
+  </view>
+  <view class="sendAdress">
+    <label>发货人地址</label>
+    <van-icon class="address" name="records" bind:click="doEditAddress"/>
+    <van-cell
+      is-link
+      link-type="navigateTo"
+      url="/pages/manageSenderAddress/manageSenderAddress"
+    >
+      <view slot="title">
+        <view wx:if="{{isMissingSenderAddress}}">
+          <label class="label_attention">请选择发货人地址</label>
+        </view>
+        <view>
+          <label>{{defaultSenderAddress.addressDescription}}</label>
+        </view>
+        <view>
+          <label>{{defaultSenderAddress.surname}} </label>
+          <label>{{defaultSenderAddress.firstname}} </label>
+        </view>
+        <view>
+          <label>{{defaultSenderAddress.contactNumber}}</label>
+        </view>
+        <view>
+          <label>{{defaultSenderAddress.street}} </label>
+          <label>{{defaultSenderAddress.area}} </label>
+        </view>
+        <view>
+          <label> {{defaultSenderAddress.city}} </label>
+          <label> {{defaultSenderAddress.country}} </label>
+          <label> {{defaultSenderAddress.postcode}} </label>
+        </view>
+      </view>
+    </van-cell>
+  </view>
+  <!--receiver address-->
+  <view class="receiverAdress">
+    <label>收件人地址</label>
+    <van-icon class="address" name="records" bind:click="doEditAddress"/>
+    <van-cell
+      is-link
+      link-type="navigateTo"
+      url="/pages/manageReceiverAddress/manageReceiverAddress"
+    >
+      <view slot="title">
+        <view wx:if="{{isMissingReceiverAddress}}">
+          <label class="label_attention">请选择收货人地址</label>
+        </view>
+        <view>
+          <label>{{defaultReceiverAddress.addressDescription}}</label>
+        </view>
+        <view>
+          <label>{{defaultReceiverAddress.surname}} </label>
+          <label>{{defaultReceiverAddress.firstname}} </label>
+        </view>
+        <view>
+          <label>{{defaultReceiverAddress.contactNumber}}</label>
+        </view>
+        <view>
+          <label>{{defaultReceiverAddress.street}} </label>
+          <label>{{defaultReceiverAddress.area}} </label>
+        </view>
+        <view>
+          <label> {{defaultReceiverAddress.city}} </label>
+          <label> {{defaultReceiverAddress.country}} </label>
+          <label> {{defaultReceiverAddress.postcode}} </label>
+        </view>
+      </view>
+    </van-cell>
+  </view>
+  <!--pickup-->
+  <view class="view-step">
+    <van-cell>
+      <view slot="title">
+        <van-checkbox value="{{isPickup}}" bind:change="onPickupChange">
+          我要自提
+        </van-checkbox>
+      </view>
+    </van-cell>
+  </view>
+</view>
+
+<!--last step-->
+<view class="view-step" wx:if="{{active == 3}}">
+  <block>
+    <view>
+      <label>运单信息</label>
+      <van-grid column-num="5">
+        <van-grid-item  text="包裹" >
+          <view slot="icon">
+            <label class="label">{{selectedItems.length}} 件</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item  text="体积" >
+          <view slot="icon">
+            <label class="label">{{totalVolume}} m3</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item text="重量">
+          <view slot="icon">
+            <label class="label">{{totalWeight}} kg</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item  text="材积">
+          <view slot="icon">
+            <label class="label">{{totalCaiJi}} kg</label>
+            
+          </view>
+        </van-grid-item>
+        <van-grid-item text="总价">
+          <view slot="icon">
+            <label class="label">{{totalPrice}} ¥</label>   
+          </view>
+        </van-grid-item>
+      </van-grid>
+    </view>
+  </block>
+  <view>
+    <block>
+      <van-cell>
+        <van-radio-group
+          value="{{ yundanChannel }}"
+          bind:change="onYundanChannelChange"
+        >
+          <van-radio checked-color="#f37022" name="1">海运小包</van-radio>
+          <van-radio checked-color="#f37022" name="2">海运食品小包</van-radio>
+        </van-radio-group>
+      </van-cell>
+    </block>
+  </view>
+  <view>
+    <block>
+      <label>货物价格明细</label>
+      <van-cell>
+        <view slot="title">
+         <label>包裹件数</label>
+        </view>
+        <view> 
+          <label>{{selectedItems.length}} 件</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>货物体积</label>
+        </view>
+        <view> 
+          <label>{{totalVolume}} 立方米</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>计费重量</label>
+        </view>
+        <view> 
+          <label>{{totalWeight}} 公斤</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>总价</label>
+        </view>
+        <view> 
+          <label>{{totalPriceNZD}} NZD</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>拆包费用</label>
+        </view>
+        <view> 
+          <label>{{totalUnpackNZD}} NZD</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>国际运输费</label>
+        </view>
+        <view> 
+          <label>{{internationalDelieveryNZD}} NZD</label>
+        </view>
+      </van-cell>
+      <view>
+        <text>国际运输费包含：</text>
+      </view>
+      <view>
+        <text>为避免后续处理延误，请选择最合适的计费方式，如不确定，请在生成运单后与客服联系确认更改。</text>
+      </view>
+    </block>
+  </view>
+  <view>
+    <label>用户需知</label>
+    <text>我已完整填写物品真实数量和价值，并不含有任何食品，木制品，超量电池，液体及法律规定的敏感物品。</text>
+    <text>如有任何未申报，敏感物品造成的处理，确认，查验产生的延误和费用我自行承担。</text>
+    <van-divider/>
+    <van-checkbox value="{{isAgree}}" bind:change="onIsAgreeChange">
+      我同意<label class="label_attention">*</label>
+    </van-checkbox>
+  </view>
+</view>
+
+<!--preview-->
+<view class="view-step" wx:if="{{active == 4}}">
+  <view>
+    <text>运单包裹：</text>
+    <block >
+      <van-cell-group wx:for="{{selectedItems}}" wx:key="id">
+        <van-cell>
+          <view slot="title">
+            <text>  {{item.packageName}}</text>
+          </view>
+          <view> 
+            <label wx:if="{{item.unpack}}">
+              拆包
+            </label>
+            <label wx:if="{{!item.unpack}}">
+              不拆包
+            </label>
+          </view>
+        </van-cell>
+      </van-cell-group>
+    </block>
+    <block>
+      <view>
+        <label>运单信息</label>
+        <van-grid column-num="5">
+          <van-grid-item  text="包裹" >
+            <view slot="icon">
+              <label class="label">{{selectedItems.length}} 件</label>
+            </view>
+          </van-grid-item>
+          <van-grid-item  text="体积" >
+            <view slot="icon">
+              <label class="label">{{totalVolume}} m3</label>  
+            </view>
+          </van-grid-item>
+          <van-grid-item text="重量">
+            <view slot="icon">
+              <label class="label">{{totalWeight}} kg</label>
+            </view>
+          </van-grid-item>
+          <van-grid-item  text="材积">
+            <view slot="icon">
+              <label class="label">{{totalCaiJi}} kg</label>
+            </view>
+          </van-grid-item>
+          <van-grid-item text="总价">
+            <view slot="icon">
+              <label class="label">{{totalPrice}} ¥</label>
+            </view>
+          </van-grid-item>
+        </van-grid>
+      </view>
+    </block>
+    <block>
+      <van-cell>
+        <view slot="title">
+          <text> 运单类型：</text>
+        </view>
+        <view> 
+          <label wx:if="{{yundanChannel == 1}}">海运</label>
+          <label wx:if="{{yundanChannel == 2}}">空运</label>
+          <label wx:if="{{yundanChannel == 3}}">退货</label>
+        </view>
+      </van-cell>
+    </block>
+    <block>
+      <van-cell>
+        <view slot="title">
+          <text>运单种类：</text>
+        </view>
+        <view> 
+          <label wx:if="{{yundanType == 1}}">转运运单</label>
+          <label wx:if="{{yundanType == 2}}">直邮运单</label>
+        </view>
+      </van-cell>
+    </block>
+    <block>
+      <van-cell>
+        <view slot="title">
+         <label>货物体积</label>
+        </view>
+        <view> 
+          <label>{{totalVolume}} 立方米</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>计费重量</label>
+        </view>
+        <view> 
+          <label>{{totalWeight}} 公斤</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>总价</label>
+        </view>
+        <view> 
+          <label>{{totalPriceNZD}} NZD</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>拆包费用</label>
+        </view>
+        <view> 
+          <label>{{totalUnpackNZD}} NZD</label>
+        </view>
+      </van-cell>
+      <van-cell>
+        <view slot="title">
+         <label>国际运输费</label>
+        </view>
+        <view> 
+          <label>{{internationalDelieveryNZD}} NZD</label>
+        </view>
+      </van-cell>
+    </block>
+    <block>
+      <label wx:if="{{isPickup}}">自提</label>
+      <view class="receiverAdress">
+        <label>收件人地址</label>
+        <van-cell>
+          <view slot="title">
+            <view>
+              <label>{{defaultReceiverAddress.addressDescription}}</label>
+            </view>
+            <view>
+              <label>{{defaultReceiverAddress.surname}} </label>
+              <label>{{defaultReceiverAddress.firstname}} </label>
+            </view>
+            <view>
+              <label>{{defaultReceiverAddress.contactNumber}}</label>
+            </view>
+            <view>
+              <label>{{defaultReceiverAddress.street}} </label>
+              <label>{{defaultReceiverAddress.area}} </label>
+            </view>
+            <view>
+              <label> {{defaultReceiverAddress.city}} </label>
+              <label> {{defaultReceiverAddress.country}} </label>
+              <label> {{defaultReceiverAddress.postcode}} </label>
+            </view>
+          </view>
+        </van-cell>
+      </view>
+      <view class="sendAdress">
+        <label>发货人地址</label>
+        <van-cell>
+          <view slot="title">
+            <view>
+              <label>{{defaultSenderAddress.addressDescription}}</label>
+            </view>
+            <view>
+              <label>{{defaultSenderAddress.surname}} </label>
+              <label>{{defaultSenderAddress.firstname}} </label>
+            </view>
+            <view>
+              <label>{{defaultSenderAddress.contactNumber}}</label>
+            </view>
+            <view>
+              <label>{{defaultSenderAddress.street}} </label>
+              <label>{{defaultSenderAddress.area}} </label>
+            </view>
+            <view>
+              <label> {{defaultSenderAddress.city}} </label>
+              <label> {{defaultSenderAddress.country}} </label>
+              <label> {{defaultSenderAddress.postcode}} </label>
+            </view>
+          </view>
+        </van-cell>
+      </view>
+    </block>
+  </view>
+</view>
+<view class="placeholder-view"></view>
+<!--step buttons-->
+<view class="button-bottom">
+  <van-goods-action>
+    <view>
+      <van-goods-action-button disabled="{{active ==0}}" text="上一步" bind:click="doStepUp"/>
+    </view>
+    <view wx:if="{{active < 3}}">
+      <van-goods-action-button disabled="{{(active > 0 && selectedItems.length==0)||(isMissingReceiverAddress||isMissingSenderAddress)}}" text="下一步" bind:click="doStepDown" />
+    </view>
+    <view wx:if="{{active == 3}}">
+      <van-goods-action-button disabled="{{!isAgree}}" text="提交" bind:click="doPreviewBill" />
+    </view>
+    <view wx:if="{{active == 4}}">
+      <van-goods-action-button text="确认" bind:click="doSubmitBill" />
+    </view>
+  </van-goods-action>
+</view>

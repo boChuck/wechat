@@ -1,0 +1,9 @@
+/* pages/Registration/Registration.wxss */
+.agree-p {
+  color: cornflowerblue;
+  text-decoration: underline;
+}
+.view_registration{
+  margin-top: 10px;
+  margin-bottom: 5px;
+}

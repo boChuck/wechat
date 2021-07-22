@@ -1,0 +1,4 @@
+/* pages/about/about.wxss */
+.button-bottom {
+  margin-bottom: 5px;
+}

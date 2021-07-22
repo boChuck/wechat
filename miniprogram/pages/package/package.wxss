@@ -1,0 +1,8 @@
+/* pages/package/package.wxss */
+.placeholder-view {
+  width: 100%;
+  height: 150rpx;
+}
+.button-bottom {
+  margin-bottom: 100rpx;
+}

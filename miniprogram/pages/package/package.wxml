@@ -1,0 +1,92 @@
+<!--pages/package/package.wxml-->
+<view>
+  <van-row>
+    <van-col span="8">
+      <van-image width="20rem" height="16rem" fit="cover" src="{{pendingEdit[0].image}}"/>
+    </van-col>
+  </van-row>
+</view>
+<view>
+  <van-row>
+    <van-col span="8">{{pendingEdit[0].deliveryCompany}}</van-col>
+  </van-row>
+  <van-divider />
+</view>
+<view>
+  <label>收货时间: </label><text>{{pendingEdit[0].displayDate}}</text>
+  <label>物品件数: </label><text>{{pendingEdit[0].number}}</text>
+  <label>货物体积: </label><text>{{pendingEdit[0].volume}}</text>
+  <label>货物重量: </label><text>{{pendingEdit[0].weight}}</text>
+  <label>材积: </label><text>3.38KG</text>
+  <van-divider />
+</view>
+<view>
+  <van-cell-group>
+  <van-field
+    model:value="{{ packageName }}"
+    required
+    clearable
+    label="物品名称"
+    placeholder="请填写"
+  />
+
+  <van-field
+    model:value="{{ packageMaterial }}"
+    label="材质"
+    placeholder="请填写"
+    required
+    clearable
+  />
+  <van-field
+    model:value="{{ numOfPieces }}"
+    label="件数"
+    placeholder="0"
+    required
+    clearable
+  />
+  <van-field
+    model:value="{{ price }}"
+    label="总价(¥)"
+    placeholder="CNY"
+    required
+    clearable
+  />
+  <van-field
+    model:value="CNY (¥) {{ price * numOfPieces}}"
+    label="货物总价"
+    readonly
+  />
+</van-cell-group>
+</view>
+<view>
+  <text>包装；标记；装运。卖方应：(a)根据买方、相关承运人以及产品出口目的地国家的要求
+适当包装、标记及装运产品；(b)根据买方指示安排装运；(c)根据买方指示对每一包装进行标
+注或加标签； (d) 根据买方的要求，就每次装运提供载明订单编号、修正或发货编号、买方
+编号、卖方编号（若适用）、装运的货品数量、装运箱数、卖方名字及其编号，以及提单编
+号的单据；和 (e) 根据买方指示和承运人要求，就每一次运输及时寄送提单原件或其他装运
+收据。卖方将提供任何须向承运人、买方及其雇员告知的，关于如何操作、运输、处理、使
+用或处置该类产品、容器和包装的任何特殊操作的指示。</text>
+<van-divider />
+</view>
+<view>
+  <van-cell-group>
+  <van-field
+    value="{{ memo }}"
+    clearable
+    label="客户备注"
+    placeholder="请输入备注"
+    bind:click-icon="onClickIcon"
+  />
+  </van-cell-group> 
+</view>
+<view class="placeholder-view"></view>
+<view class="button-bottom">
+  <van-goods-action>
+    <view>
+      <van-goods-action-button text="提交并返回" bind:click="doSubmitDetails"/>
+    </view>
+    <view>
+      <van-goods-action-button text="咨询该包裹" bind:click="doInquery" />
+    </view>
+  </van-goods-action>
+</view>

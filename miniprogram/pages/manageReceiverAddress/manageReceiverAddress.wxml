@@ -1,0 +1,56 @@
+<!--pages/manageReceiverAddress/manageReceiverAddress.wxml-->
+<view>
+  <label>收件人地址</label>
+  <block wx:for="{{receiverAddresses}}" wx:key="id">
+    <van-card>
+      <view slot="title">
+        <van-cell
+          is-link
+          link-type="navigateTo"
+          url="/pages/editAddress/editAddress?jsonStr={{item._id}}"
+        >
+          <view slot="title">
+            <view>
+              <label>{{item.addressDescription}}</label>
+            </view>
+            <view>
+              <label>{{item.surname}} </label>
+              <label>{{item.firstname}} </label>
+            </view>
+            <view>
+              <label>{{item.contactNumber}}</label>
+            </view>
+            <view>
+              <label>{{item.street}} </label>
+              <label>{{item.area}} </label>
+            </view>
+            <view>
+              <label> {{item.city}} </label>
+              <label> {{item.country}} </label>
+              <label> {{item.postcode}} </label>
+            </view>
+          </view>
+         </van-cell>
+         <van-cell>
+          <view slot="title">
+            <label>设置为默认</label>
+          </view>
+          <van-switch id="{{index}}" data-id="{{item._id}}" checked="{{switchDefault[index]}}" size="24px" bind:change="onDefaultChange" />
+         </van-cell>
+         <van-cell>
+          <view slot="title">
+            <label>使用此地址</label>
+          </view>
+          <van-switch id="{{index}}" data-id="{{item._id}}" checked="{{switchSelect[index]}}" size="24px" bind:change="onUsedChange" />
+         </van-cell>
+        </view>
+      </van-card>
+  </block>
+  <view>
+    <van-button type="primary" round color="#f37022" block size="large">新增地址</van-button>
+  </view>
+  <view>
+    <van-notify id="van-notify" />
+  </view>
+</view>
+

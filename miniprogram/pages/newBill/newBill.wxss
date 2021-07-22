@@ -1,0 +1,34 @@
+/* pages/newBill/newBill.wxss */
+.button-bottom {
+  margin-bottom: 100rpx;
+}
+.label {
+  font-size: 12px;
+}
+.sendAdress {
+  margin-top: 16px;
+}
+.receiverAdress {
+  margin-top: 16px;
+}
+.van-radio {
+  margin-top: 12px;
+  font-size: small;
+}
+.yundanInfo {
+  margin-top: 20px;
+}
+.label_attention{
+  color: red;
+  margin-right: 28px;
+}
+.address .van-icon{
+  margin-left: 6px;
+}
+.view-step {
+  margin-bottom: 80px;
+}
+.placeholder-view {
+  width: 100%;
+  height: 150rpx;
+}

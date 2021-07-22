@@ -1,0 +1,146 @@
+<!--index.wxml-->
+  <view>
+    <block wx:for="{{alerts}}" wx:key="id">
+      <van-notice-bar
+        wrapable
+        left-icon="info-o"
+        mode="closeable"
+        scrollable="{{ false }}"
+        text="{{item.content}}"
+      />
+    </block>
+  </view>
+  <view>
+    <van-tabs active="{{ active }}" >
+     
+      <van-tab title="待完善">
+        <view wx:if="{{isRegisteredUser}}">
+          <block wx:for="{{pendingEdits}}" wx:key="id">
+            <block wx:if="{{item.status==0}}">
+              <van-card
+                desc="未知"
+                title="{{item.displayDate}}"
+                num="{{item.number}}"
+                thumb="{{item.image}}"
+              >
+                <view slot="tags">
+                  <text type="primary"> {{item.deliveryCompany}}: {{item.deliveryNum}} \n</text> 
+                  <van-tag round color="#f37022" type="primary"> 重量:{{item.weight}} </van-tag> 
+                  <van-tag></van-tag>
+                  <van-tag round color="#f37022" type="primary"> 体积:{{item.volume}} </van-tag> 
+                </view>
+                <view slot="footer">
+                  <van-button color="#f37022" id="{{item.userID}}" data-hi="{{item.image}}" data-id="{{item._id}}" round type="primary" size="mini" bindtap="doPackageUpdate">点击完善信息</van-button>
+                </view>
+              </van-card>
+              <van-divider hairline/>
+            </block>
+          </block>
+        </view>
+      </van-tab>
+      <van-tab title="待出库">
+        <view wx:if="{{isRegisteredUser}}">
+          <block wx:for="{{pendingEdits}}" wx:key="id">
+            <block wx:if="{{item.status==1}}">
+              <van-card
+                desc="{{item.packageName}}"
+                title="{{item.displayDate}}"
+                num="{{item.numberOfPieces}}"
+                thumb="{{item.image}}"
+              >
+                <view slot="tags">
+                    <text type="primary"> {{item.deliveryCompany}}: {{item.deliveryNum}} \n</text> 
+                    <van-tag round color="#f37022" type="primary"> 重量:{{item.weight}} </van-tag> 
+                </view>
+                <view slot="footer">
+                    <text>已完善</text>
+                </view>
+              </van-card>
+              <van-divider hairline/>
+            </block>
+          </block>
+         
+          <view  class="button-bottom" style="width:100%;height60px;border-top:1px color:#f37022; position:fixed; bottom:0;">
+            <button class="btn" bindtap="doCreateBill">新建运单，申请出库
+              
+            </button>
+          </view>
+      </view>
+      </van-tab>
+      <van-tab title="处理中">
+        <view wx:if="{{isRegisteredUser}}">
+          <block wx:for="{{pendingEdits}}" wx:key="id">
+            <block wx:if="{{item.status==2}}">
+              <van-card
+                desc="{{item.packageName}}"
+                title="{{item.displayDate}}"
+                num="{{item.numberOfPieces}}"
+                thumb="{{item.image}}"
+              >
+                <view slot="tags">
+                    <text type="primary"> {{item.deliveryCompany}}: {{item.deliveryNum}} \n</text> 
+                    <van-tag round color="#f37022" type="primary"> 重量:{{item.weight}} </van-tag> 
+                </view>
+                <view slot="footer">
+                    <text>已完善</text>
+                </view>
+              </van-card>
+              <van-divider hairline/>
+            </block>
+          </block>
+        </view>
+      </van-tab>
+      <van-tab title="已出库">
+        <view wx:if="{{isRegisteredUser}}">
+          
+        </view>
+      </van-tab>
+      <view class="view_completeReg" wx:if="{{!isRegisteredUser}}">
+        <text class="text_completeReg">请完善你的信息</text>
+        <van-button round  type="primary" color="#f37022" block bindtap="doCompleteRegistration">完善你的信息
+        </van-button>
+      </view>
+      <view wx:if="{{isRegisteredUser && totalPendingEdits==0}}">
+        <view class="view_noPackage1">您没有要处理的包裹</view>
+        <view class="view_noPackage2">请使用下面地址作为您购物平台的收货地址。</view>
+        <view>
+          <van-card
+            title="海运地址"
+            bindtap='copyHaiyunAddress'
+            data-text="{{haiyunAddress}}"
+            >
+            <view slot="desc">
+              <view>收件人: {{customerNumber}}</view>
+              <view>手机: {{123456789}}</view>
+              <view>地址: {{haiyunAddress}}</view>
+              <view>邮编: {{1010}}</view>
+            </view>
+          </van-card>
+        </view>
+        <view> 
+          <van-card
+            title="空运地址"
+            bindtap='copyKongyunAddress'
+            data-text="{{kongyunAddress}}"
+          >
+            <view slot="desc">
+              <view>收件人: {{customerNumber}}</view>
+              <view>手机: {{123456789}}</view>
+              <view>地址: {{kongyunAddress}}</view>
+              <view>邮编: {{1010}}</view>
+            </view>
+          </van-card>
+        </view>
+        <view class="view_noPackageFont">点击复制地址</view>
+        <view class="info">
+          <van-grid  border="{{false}}" column-num="2">
+            <van-grid-item  bind:click='doOpenCostGuide' icon="gold-coin-o" text="运费概要" />
+            <van-grid-item bind:click='doOpenQuestion' icon="question-o" text="常见问题"  />
+          </van-grid>
+          
+          <!-- <van-icon  size="30px" color="#f37022" info="常见问题" name="question-o" />
+          <van-icon  size="30px" color="#f37022" info="运费概要" name="gold-coin-o" /> -->
+        </view>
+      </view>
+    </van-tabs>
+  </view>

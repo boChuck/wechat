@@ -1,0 +1,12 @@
+<view>用户管理</view>
+<view class="button-bottom">
+  <van-button type="primary" block color="#f37022" bindtap="doUploadPackagesExcel">上传包裹信息</van-button>
+</view>
+<view class="button-bottom">
+  <van-button type="primary" block color="#f37022" bindtap="doUploadAlertsExcel">上传用户提醒信息</van-button>
+</view>
+<view class="button-bottom">
+  <van-button type="primary" block color="#f37022" bindtap="doUploadLocationsExcel">上传用户包裹海运位置更新</van-button>
+</view>
+
+

@@ -1,0 +1,41 @@
+/**index.wxss**/
+
+page {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.button-bottom {
+  margin-bottom: 5px;
+}
+.btn{
+  background-color: #f37022;
+  color: white;
+}
+.info {
+  margin-top: 50px;
+}
+.view_noPackage1
+{
+  margin-top: 20px;
+  margin-left: 80px;
+}
+.view_noPackage2
+{
+  margin-top: 20px;
+  margin-bottom: 5px;
+  margin-left: 5px;
+}
+.view_noPackageFont
+{
+  font-size: small;
+}
+.view_completeReg
+{
+  margin-top: 20px;
+}
+.text_completeReg
+{
+  margin-left: 100px;
+}

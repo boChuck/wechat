@@ -1,0 +1,5 @@
+/* pages/confirmedBill/confirmedBill.wxss */
+.label_billing{
+  color: red;
+  margin-right: 28px;
+}

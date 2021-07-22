@@ -1,0 +1,61 @@
+{
+  "pages": [
+    "pages/home/home",
+    "pages/index/index",
+    "pages/billing/billing",
+    "pages/calculator/calculator",
+    "pages/about/about",
+    "pages/package/package",
+    "pages/newBill/newBill",
+    "pages/editAddress/editAddress",
+    "pages/manageSenderAddress/manageSenderAddress",
+    "pages/manageReceiverAddress/manageReceiverAddress",
+    "pages/confirmedBill/confirmedBill",
+    "pages/registration/registration",
+    "pages/userAgreement/userAgreement",
+    "pages/costGuide/costGuide",
+    "pages/QA/QA",
+    "pages/error/error"
+  ],
+  "window": {
+    "backgroundColor": "#F6F6F6",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#f37022", 
+    "navigationBarTitleText": "AI JIA",
+    "navigationBarTextStyle": "white"
+  },
+  "tabBar": {
+    "backgroundColor": "#FFFFFE",
+    "borderStyle": "white",
+    "selectedColor": "#D03232",
+    "color": "#131313",
+    "list": [{
+      "pagePath": "pages/index/index",
+      "iconPath": "images/icon_component.png",
+      "selectedIconPath": "images/icon_component_HL.png",
+      "text": "包裹"
+     }, {
+      "pagePath": "pages/billing/billing",
+      "iconPath": "images/icon_API.png",
+      "selectedIconPath": "images/icon_API_HL.png",
+      "text": "运单"
+    }, {
+      "pagePath": "pages/calculator/calculator",
+      "iconPath": "images/icon_API.png",
+      "selectedIconPath": "images/icon_API_HL.png",
+      "text": "费用计算"
+    }, {
+      "pagePath": "pages/about/about",
+      "iconPath": "images/icon_API.png",
+      "selectedIconPath": "images/icon_API_HL.png",
+      "text": "我的"
+    }]
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于小程序位置接口的效果展示" 
+    }
+  }
+}

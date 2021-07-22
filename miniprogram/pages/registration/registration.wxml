@@ -1,0 +1,41 @@
+<!--pages/Registration/Registration.wxml-->
+<view class="view_registration">
+  <label>请填写你的信息来完成用户注册：</label>
+  <van-notify id="van-notify" />
+</view>
+<view>
+  <van-cell-group>
+    <van-field
+      label="姓名"
+      placeholder="请输入中文姓名"
+      bind:input="onNameInput"
+      bind:blur="onNameBlur"
+      error="{{invalidName}}"
+    />
+    <van-field
+      label="email"
+      placeholder="请输入email"
+      bind:blur="onEmailBlur"
+      bind:input="onEmailInput"
+      error="{{invalidEmail}}"
+      error-message="{{emailErrorMessage}}"
+    />
+    <van-field
+      label="手机号"
+      placeholder="请输入手机号"
+      bind:input="onContactNumberInput"
+      bind:blur="onContactNumberBlur"
+      error="{{invalidContactNumber}}"
+    />
+  </van-cell-group>
+</view>
+<view class="view_registration">
+  <p>点击阅读</p><p class='agree-p' bind:tap="agreeUser">《用户协议》</p>
+</view>
+<view class="view_registration">
+  <van-checkbox value="{{ agreeChecked }}" bind:change="onAgreeChange">已阅读并同意用户服务条款</van-checkbox>
+</view>
+<view class="view_registration">
+  <van-button round disabled="{{!agreeChecked}}" type="primary" color="#f37022" block bind:click="doSubmitRegistration">申请注册
+  </van-button>
+</view>

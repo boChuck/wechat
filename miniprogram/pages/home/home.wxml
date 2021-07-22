@@ -1,0 +1,16 @@
+<!--pages/home/home.wxml-->
+<view class="view_homeImage">
+  <van-image
+    round
+    src="/images/aijia.png"
+  />
+</view>
+<block>
+  <view class="view_loading" wx:if="{{!isLoadingFinished}}">
+    <van-loading size="36px">登陆中...</van-loading>
+  </view>
+</block>
+<view class="button-bottom" style="width:100%;height60px;border-top:1px color:#f37022; position:fixed; bottom:0;" wx:if="{{!isExistingUser}}">
+  <van-button color="#f37022" round block plain bindtap="doStart">开始体验爱家
+  </van-button>
+</view>

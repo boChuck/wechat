@@ -1,0 +1,7 @@
+/* pages/editAddress/editAddress.wxss */
+.van-button {
+  margin: 10px;
+}
+.van-cell-group {
+  margin: 10px;
+}
