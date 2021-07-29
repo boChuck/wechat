@@ -1,12 +1,63 @@
-<view>用户管理</view>
-<view class="button-bottom">
-  <van-button type="primary" block color="#f37022" bindtap="doUploadPackagesExcel">上传包裹信息</van-button>
-</view>
-<view class="button-bottom">
-  <van-button type="primary" block color="#f37022" bindtap="doUploadAlertsExcel">上传用户提醒信息</van-button>
-</view>
-<view class="button-bottom">
-  <van-button type="primary" block color="#f37022" bindtap="doUploadLocationsExcel">上传用户包裹海运位置更新</van-button>
-</view>
 
+<view>
+  <van-card>
+    <view slot="thumb">
+      <image class="userinfo-block-avatar" src="{{avatarUrl}}" mode="cover"></image>
+    </view>
+    <view slot="desc">
+      <view class="userinfo-nickname-wrapper">
+        <label class="userinfo-nickname">{{nickname}}</label>
+      </view>
+      <view class="userinfo-nickname-wrapper">
+        <label class="userinfo-nickname">客户号： {{customerNumber}}</label>
+      </view>
+    </view>
+  </van-card>
+</view>
+<view>
+  <van-grid column-num="3">
+    <van-grid-item icon="home-o" text="关于我们" />
+    <van-grid-item icon="gold-coin-o" text="运费说明" />
+    <van-grid-item icon="question-o" text="常见问题" />
+    <van-grid-item icon="bill-o" text="支付方式" />
+    <van-grid-item icon="exchange" text="运费计算" />
+    <van-grid-item icon="service-o" text="联系客服" />
+  </van-grid>
+</view>
+<view class="divider">
+  <van-divider hairline/>
+</view>
+<view>
+  <van-cell
+    is-link
+    link-type="navigateTo"
+    url="/pages/manageProfile/manageProfile"
+  >
+    <view slot="title">
+      <label>个人信息</label>
+    </view>
+  </van-cell>
+</view>
+<view>
+  <van-cell
+    is-link
+    link-type="navigateTo"
+    url="/pages/manageSenderAddress/manageSenderAddress"
+  >
+    <view slot="title">
+      <label>发货人地址管理</label>
+    </view>
+  </van-cell>
+</view>
+<view>
+  <van-cell
+    is-link
+    link-type="navigateTo"
+    url="/pages/manageReceiverAddress/manageReceiverAddress"
+  >
+    <view slot="title">
+      <label>收货人地址管理</label>
+    </view>
+  </van-cell>
+</view>
 

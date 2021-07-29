@@ -20,7 +20,6 @@
               <text>{{item.isPaid}}</text>
             </view>
           </van-card>
-          <van-divider hairline/>
         </block>
       </van-cell>
     </block>

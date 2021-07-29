@@ -1,6 +1,7 @@
 //index.js
 const app = getApp()
-import Notify from '@vant/weapp/notify/notify';
+import Toast from '@vant/weapp/toast/toast';
+
 Page({
   data: {
     avatarUrl: './user-unlogin.png',
@@ -19,7 +20,12 @@ Page({
     customerNumber: '',
     contactNumber: '',
     postcode: '',
-    alerts: []
+    alerts: [],
+    isAdminUser: false,
+    output: 'no output',
+    ratio: '',
+    chaibaoCost:  '',
+    internationalCargoCost:  '',
   },
   copyKongyunAddress: function (e) {
     console.log(e)
@@ -101,10 +107,44 @@ Page({
   },
   onLoad: function() {
     wx.stopPullDownRefresh();
+    wx.cloud.callFunction({
+      name: "isAdminUser",
+      success: (res) => {
+        console.log(res.result.data.length)
+        this.setData({
+          isAdminUser: res.result.data.length!=0,
+        })
+      },
+      fail: console.error,
+      complete:(res)=>{
+        console.log(this.data.isAdminUser)
+        if(this.data.isAdminUser){
+          wx.showLoading({
+            title: '加载中...',
+          })
+          wx.cloud.callFunction({
+            name: "getSettings",
+            success: (res) => {
+              console.log(res.result.data)
+              this.setData({
+                ratio: res.result.data[0].ratio,
+                chaibaoCost: res.result.data[0].chaibaoCost,
+                internationalCargoCost: res.result.data[0].internationalCargoCost,
+              })
+            },
+            fail: console.error,
+            complete:(res)=>{
+              wx.hideLoading()
+            }
+          })
+          wx.hideTabBar()
+        }
+      }
+    })
   },
   onShow: function () {
     console.log("on show");
-    wx.cloud.callFunction({
+     wx.cloud.callFunction({
       name: "isRegisteredUser",
       success: (res) => {
         console.log(res.result.users.data);
@@ -248,5 +288,145 @@ Page({
       }
     })
   },
-
+  // admin user functions
+  // ###################################################
+  // ###################################################
+  doUploadAlertsExcel(event){
+    let that = this
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'file',
+      success(res) {
+        let path = res.tempFiles[0].path;
+        console.log("get file", path)
+        that.upLoadAlertExcel(path);
+      }
+    })
+  },
+  doUploadLocationsExcel(event){
+    let that = this
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'file',
+      success(res) {
+        let path = res.tempFiles[0].path;
+        console.log("get file", path)
+        that.upLoadLocationExcel(path);
+      }
+    })
+  },
+  doUploadPackagesExcel(event) {
+    let that = this
+    wx.chooseMessageFile({
+      count: 1,
+      type: 'file',
+      success(res) {
+        let path = res.tempFiles[0].path;
+        console.log("get file", path)
+        that.upLoadPackageExcel(path);
+      }
+    })
+  },
+  upLoadLocationExcel(path) {
+    let that= this
+    wx.cloud.uploadFile({
+      cloudPath: new Date().getTime() + '.xls',
+      filePath: path,
+      success: res=>{
+        console.log('upload successful', res.fileID)
+        that.parseLocationFile(res.fileID)
+      },
+      fail: err=>{
+        console.log("upload failed", err)
+      }
+    })
+  },
+  upLoadAlertExcel(path) {
+    let that= this
+    wx.cloud.uploadFile({
+      cloudPath: new Date().getTime() + '.xls',
+      filePath: path,
+      success: res=>{
+        console.log('upload successful', res.fileID)
+        that.parseAlertFile(res.fileID)
+      },
+      fail: err=>{
+        console.log("upload failed", err)
+      }
+    })
+  },
+  upLoadPackageExcel(path) {
+    let that= this
+    wx.cloud.uploadFile({
+      cloudPath: new Date().getTime() + '.xls',
+      filePath: path,
+      success: res=>{
+        console.log('upload successful', res.fileID)
+        that.parsePackageFile(res.fileID)
+      },
+      fail: err=>{
+        console.log("upload failed", err)
+      }
+    })
+  },
+  parsePackageFile(fieldId) {
+    wx.cloud.callFunction({
+      name: "packagesExcel",
+      data: {
+        fileID: fieldId
+      },
+      success(res) {
+        console.log("parse successfully", res)
+      },
+      fail(res){
+        console.log("parse failed", res)
+      }
+    })
+  },
+  parseLocationFile(fieldId) {
+    wx.cloud.callFunction({
+      name: "locationsExcel",
+      data: {
+        fileID: fieldId
+      },
+      success(res) {
+        console.log("parse successfully", res)
+      },
+      fail(res){
+        console.log("parse failed", res)
+      }
+    })
+  },
+  parseAlertFile(fieldId) {
+    wx.cloud.callFunction({
+      name: "alertsExcel",
+      data: {
+        fileID: fieldId
+      },
+      success(res) {
+        console.log("parse successfully", res)
+      },
+      fail(res){
+        console.log("parse failed", res)
+      }
+    })
+  },
+  doSaveSettings(event) {
+    console.log(this.data.ratio);
+    wx.cloud.callFunction({
+      name: "doSaveSettings",
+      data: {
+        ratio: this.data.ratio,
+        chaibaoCost:  this.data.chaibaoCost,
+        internationalCargoCost:  this.data.internationalCargoCost,
+      },
+      success(res) {
+        console.log("save successfully", res)
+        Toast.success('已保存');
+      },
+      fail(res){
+        console.log("save failed", res)
+      }
+    })
+  }
 })

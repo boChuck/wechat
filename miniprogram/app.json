@@ -15,7 +15,8 @@
     "pages/userAgreement/userAgreement",
     "pages/costGuide/costGuide",
     "pages/QA/QA",
-    "pages/error/error"
+    "pages/error/error",
+    "pages/manageProfile/manageProfile"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

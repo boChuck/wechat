@@ -226,7 +226,6 @@ Page({
       title: '提交中...',
     })
     console.log(this.data.selectedItems.length);
-    let defaultTrackingLocation = this.doGetDefaultTrackingLocation();
     wx.cloud.callFunction({
       name: "doCreateBill",
       data:{
@@ -291,6 +290,7 @@ Page({
     wx.showLoading({
       title: '加载中...',
     })
+    this.doGetDefaultTrackingLocation();
     wx.cloud.callFunction({
       name: "getCompletedEdits",
       success: (res) => {
@@ -437,10 +437,11 @@ Page({
       name: "getDefaultTrackingLocation",
       success: (res) => {
         console.log(res);
-        console.log(res.result.data);
+        console.log("this ia the response data : " +res.result.data[0]._id);
         this.setData({
-          defaultLocationRef: res.result.data
+          defaultLocationRef: res.result.data[0]._id
         })
+        console.log("this ia the location ref : "+this.data.defaultLocationRef)
       },
       fail: console.error
     })

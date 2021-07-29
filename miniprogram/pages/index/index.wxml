@@ -1,4 +1,52 @@
 <!--index.wxml-->
+<!-- admin UI -->
+<view wx:if="{{isAdminUser}}">
+  <view>用户管理</view>
+  <view class="button-bottom">
+    <van-button type="primary" block color="#f37022" bindtap="doUploadPackagesExcel">上传包裹信息</van-button>
+  </view>
+  <view class="button-bottom">
+    <van-button type="primary" block color="#f37022" bindtap="doUploadAlertsExcel">上传用户提醒信息</van-button>
+  </view>
+  <view class="button-bottom">
+    <van-button type="primary" block color="#f37022" bindtap="doUploadLocationsExcel">上传用户包裹海运位置更新</van-button>
+  </view>
+  <view class="button-bottom">
+    <label>上传记录: </label>
+  </view>
+  <view>
+    <text>{{output}}</text>
+  </view>
+  <van-divider hairline />
+  <view>
+    <van-cell-group>
+      <van-field
+        model:value="{{ ratio }}"
+        clearable
+        label="重量计算比例"
+        placeholder="计算比例"
+      />
+      <van-field
+        model:value="{{ chaibaoCost }}"
+        clearable
+        label="拆包费用"
+        placeholder="拆包费用"
+      />
+      <van-field
+        model:value="{{ internationalCargoCost }}"
+        clearable
+        label="国际运费"
+        placeholder="国际运费"
+      />
+    </van-cell-group> 
+  </view>
+  <view class="button-bottom">
+    <van-button type="primary" block color="#f37022" bindtap="doSaveSettings">保存</van-button>
+  </view>
+  <van-toast id="van-toast" />
+</view>
+<!-- client UI -->
+<view wx:if="{{!isAdminUser}}">
   <view>
     <block wx:for="{{alerts}}" wx:key="id">
       <van-notice-bar
@@ -144,3 +192,4 @@
       </view>
     </van-tabs>
   </view>
+</view>

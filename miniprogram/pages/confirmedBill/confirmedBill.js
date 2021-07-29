@@ -67,6 +67,12 @@ Page({
 
   getDateFormat: function(ts){
     var d = new Date(ts).toISOString().slice(0,10);
+    var cardd = new Date(ts-86400000).toISOString().slice(0,10);
+    console.log("dddddd" + cardd);
+    return d;
+  },
+  getPreviousDateFormat: function(ts){
+    var d = new Date(ts-86400000).toISOString().slice(0,10);
     return d;
   },
   /**
@@ -234,64 +240,65 @@ Page({
   },
   doPopulateSteps(data) {
     let steps = [];
+    console.log(data[0]);
     console.log(data[0].billingRef);
     if (data[0].processing != ""){
       steps.push({
-        text: data[0].processing-1,
+        text: this.getPreviousDateFormat(data[0].processing),
         desc: '计划中',
       })
       steps.push({
-        text: data[0].processing,
+        text: this.getDateFormat(data[0].processing),
         desc: '处理中',
       })
     }
-    if (data[0].dispatched != undefined){
+    if (data[0].dispatched != ""){
       steps.push({
-        text: 11,
+        text: this.getDateFormat(data[0].dispatched),
         desc: '已出库',
       })
       steps.push({
-        text: data[0].dispatched,
+        text: this.getDateFormat(data[0].dispatched),
         desc: '开始运输',
       })
     }
     
-    // if (data[0].waitingReleasedFromChinaCustom == undefined){
-    //   steps.push({
-    //     text: data[0].waitingReleasedFromChinaCustom,
-    //     desc: '等待中国海关放行',
-    //   })
-    // }
-    // if (data[0].releasedFromChinaCustom == undefined){
-    //   steps.push({
-    //     text: data[0].releasedFromChinaCustom,
-    //     desc: '中国海关已放行',
-    //   })
-    // }
-    // if (data[0].inTransit == undefined){
-    //   steps.push({
-    //     text: data[0].inTransit,
-    //     desc: '已运出，往奥克兰方向',
-    //   })
-    // }
-    // if (data[0].arrivedInAKL == undefined){
-    //   steps.push({
-    //     text: data[0].arrivedInAKL,
-    //     desc: '到达奥克兰港口',
-    //   })
-    // }
-    // if (data[0].arrivedInStorage == undefined){
-    //   steps.push({
-    //     text: data[0].arrivedInStorage,
-    //     desc: '到达奥克兰仓库',
-    //   })
-    // }
-    // if (data[0].estimateDelivered == undefined){
-    //   steps.push({
-    //     text: data[0].estimateDelivered,
-    //     desc: '预计送达',
-    //   })
-    // }
+    if (data[0].waitingReleasedFromChinaCustom != ""){
+      steps.push({
+        text: this.getDateFormat(data[0].waitingReleasedFromChinaCustom),
+        desc: '等待中国海关放行',
+      })
+    }
+    if (data[0].releasedFromChinaCustom != ""){
+      steps.push({
+        text: this.getDateFormat(data[0].releasedFromChinaCustom),
+        desc: '中国海关已放行',
+      })
+    }
+    if (data[0].inTransit != ""){
+      steps.push({
+        text: this.getDateFormat(data[0].inTransit),
+        desc: '已运出，往奥克兰方向',
+      })
+    }
+    if (data[0].arrivedInAKL != ""){
+      steps.push({
+        text: this.getDateFormat(data[0].arrivedInAKL),
+        desc: '到达奥克兰港口',
+      })
+    }
+    if (data[0].arrivedInStorage != ""){
+      steps.push({
+        text: this.getDateFormat(data[0].arrivedInStorage),
+        desc: '到达奥克兰仓库',
+      })
+    }
+    if (data[0].estimateDelivered != ""){
+      steps.push({
+        text: this.getDateFormat(data[0].estimateDelivered),
+        desc: '预计送达',
+      })
+    }
     this.setData({
       steps: steps,
       active : steps.length-1

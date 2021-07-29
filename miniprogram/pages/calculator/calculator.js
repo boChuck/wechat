@@ -5,9 +5,11 @@ Page({
    * Page initial data
    */
   data: {
-
+    value: 0,
   },
-
+  onChange(value) {
+    
+  },
   /**
    * Lifecycle function--Called when page load
    */

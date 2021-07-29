@@ -518,16 +518,16 @@
 <view class="button-bottom">
   <van-goods-action>
     <view>
-      <van-goods-action-button disabled="{{active ==0}}" text="上一步" bind:click="doStepUp"/>
+      <van-goods-action-button color="#f37022" disabled="{{active ==0}}" text="上一步" bind:click="doStepUp"/>
     </view>
     <view wx:if="{{active < 3}}">
-      <van-goods-action-button disabled="{{(active > 0 && selectedItems.length==0)||(isMissingReceiverAddress||isMissingSenderAddress)}}" text="下一步" bind:click="doStepDown" />
+      <van-goods-action-button color="#f37022" disabled="{{(active > 0 && selectedItems.length==0)||(isMissingReceiverAddress||isMissingSenderAddress)}}" text="下一步" bind:click="doStepDown" />
     </view>
     <view wx:if="{{active == 3}}">
-      <van-goods-action-button disabled="{{!isAgree}}" text="提交" bind:click="doPreviewBill" />
+      <van-goods-action-button color="#f37022" disabled="{{!isAgree}}" text="提交" bind:click="doPreviewBill" />
     </view>
     <view wx:if="{{active == 4}}">
-      <van-goods-action-button text="确认" bind:click="doSubmitBill" />
+      <van-goods-action-button color="#f37022" text="确认" bind:click="doSubmitBill" />
     </view>
   </van-goods-action>
 </view>
